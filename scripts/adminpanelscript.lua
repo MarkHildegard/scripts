@@ -41,7 +41,7 @@ reborntext.BorderSizePixel = 2
 reborntext.Position = UDim2.new(-0.0228930321, 0, -0.00291531114, 0)
 reborntext.Size = UDim2.new(0, 328, 0, 72)
 reborntext.Font = Enum.Font.SourceSans
-reborntext.Text = "Random ah script"
+reborntext.Text = "admin panel script by Mark"
 reborntext.TextColor3 = Color3.new(1, 1, 1)
 reborntext.TextSize = 18
 
