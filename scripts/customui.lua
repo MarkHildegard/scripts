@@ -10,21 +10,21 @@ function Library:CreateWindow(config)
     Window.KeySystem = config.KeySystem or false
     Window.CorrectKey = config.CorrectKey or nil
 
-    -- UI-Elemente erstellen
     local ScreenGui = Instance.new("ScreenGui")
     local Frame = Instance.new("Frame")
     local UICorner = Instance.new("UICorner")
     local LoadingText = Instance.new("TextLabel")
     
     ScreenGui.Name = "MainWindow"
-    ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui") -- Verwende PlayerGui statt CoreGui
+    ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")  -- Wir verwenden PlayerGui, damit es für den Spieler sichtbar ist
 
     Frame.Size = UDim2.new(0, 400, 0, 300)
-    Frame.Position = UDim2.new(0.5, -200, 0.5, -150) -- Positioniert das Fenster in der Mitte
+    Frame.Position = UDim2.new(0.5, -200, 0.5, -150)  -- Fenster in der Mitte des Bildschirms
     Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 35)
     Frame.BorderSizePixel = 0
     Frame.Active = true
     Frame.Draggable = true
+    Frame.Parent = ScreenGui
 
     UICorner.CornerRadius = UDim.new(0, 12)
     UICorner.Parent = Frame
@@ -48,7 +48,7 @@ function Library:CreateWindow(config)
             KeyFrame.Size = UDim2.new(0, 350, 0, 200)
             KeyFrame.Position = UDim2.new(0.3, 0, 0.3, 0)
             KeyFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 30)
-            KeyFrame.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")  -- Wechselt zu PlayerGui
+            KeyFrame.Parent = game.CoreGui
 
             UICornerKey.CornerRadius = UDim.new(0, 12)
             UICornerKey.Parent = KeyFrame
@@ -91,7 +91,7 @@ end
 
 function Library:LoadWindow()
     --// Now we're setting up the window with the custom content (title, sections, etc.)
-    local Frame = game.Players.LocalPlayer.PlayerGui.MainWindow  -- Zugriff auf PlayerGui
+    local Frame = game.Players.LocalPlayer.PlayerGui.MainWindow  -- Ändere das auf PlayerGui
     local Title = Instance.new("TextLabel")
     Title.Size = UDim2.new(1, 0, 0, 40)
     Title.BackgroundTransparency = 1
@@ -104,9 +104,17 @@ function Library:LoadWindow()
     -- Animation effect for Loading text (pulsing)
     local pulseTween = game:GetService("TweenService"):Create(Title, TweenInfo.new(1, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut, -1, true), {TextTransparency = 0.5})
     pulseTween:Play()
+
+    -- Create a button and a toggle as an example
+    local Section = self:CreateSection("💥 Muscle")
+    self:CreateButton("Gain Muscle", function()
+        print("Gain Muscle clicked!")
+    end)
+    self:CreateToggle("AutoFarm", false, function(state)
+        print("AutoFarm toggled: " .. tostring(state))
+    end)
 end
 
---// Create Section functions
 function Library:CreateSection(name)
     local Section = {}
     Section.Name = name
@@ -115,7 +123,7 @@ function Library:CreateSection(name)
     sectionFrame.Size = UDim2.new(1, 0, 0, 50)
     sectionFrame.BackgroundColor3 = Color3.fromRGB(45, 45, 55)
     sectionFrame.BorderSizePixel = 0
-    sectionFrame.Parent = game.Players.LocalPlayer.PlayerGui.MainWindow
+    sectionFrame.Parent = game.Players.LocalPlayer.PlayerGui.MainWindow  -- Setze es im richtigen PlayerGui
 
     local sectionTitle = Instance.new("TextLabel")
     sectionTitle.Text = name
@@ -139,7 +147,7 @@ function Library:CreateButton(name, callback)
     button.Font = Enum.Font.Gotham
     button.TextScaled = true
     button.MouseButton1Click:Connect(callback)
-    button.Parent = game.Players.LocalPlayer.PlayerGui.MainWindow
+    button.Parent = game.Players.LocalPlayer.PlayerGui.MainWindow  -- Setze es im richtigen PlayerGui
 
     return button
 end
@@ -158,7 +166,7 @@ function Library:CreateToggle(name, defaultState, callback)
         toggle.Text = name .. ": " .. (defaultState and "ON" or "OFF")
         callback(defaultState)
     end)
-    toggle.Parent = game.Players.LocalPlayer.PlayerGui.MainWindow
+    toggle.Parent = game.Players.LocalPlayer.PlayerGui.MainWindow  -- Setze es im richtigen PlayerGui
 
     return toggle
 end
