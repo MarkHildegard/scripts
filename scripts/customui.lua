@@ -10,16 +10,17 @@ function Library:CreateWindow(config)
     Window.KeySystem = config.KeySystem or false
     Window.CorrectKey = config.CorrectKey or nil
 
+    -- UI-Elemente erstellen
     local ScreenGui = Instance.new("ScreenGui")
     local Frame = Instance.new("Frame")
     local UICorner = Instance.new("UICorner")
     local LoadingText = Instance.new("TextLabel")
     
     ScreenGui.Name = "MainWindow"
-    ScreenGui.Parent = game.CoreGui
+    ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui") -- Verwende PlayerGui statt CoreGui
 
     Frame.Size = UDim2.new(0, 400, 0, 300)
-    Frame.Position = UDim2.new(0.3, 0, 0.3, 0)
+    Frame.Position = UDim2.new(0.5, -200, 0.5, -150) -- Positioniert das Fenster in der Mitte
     Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 35)
     Frame.BorderSizePixel = 0
     Frame.Active = true
@@ -47,7 +48,7 @@ function Library:CreateWindow(config)
             KeyFrame.Size = UDim2.new(0, 350, 0, 200)
             KeyFrame.Position = UDim2.new(0.3, 0, 0.3, 0)
             KeyFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 30)
-            KeyFrame.Parent = game.CoreGui
+            KeyFrame.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")  -- Wechselt zu PlayerGui
 
             UICornerKey.CornerRadius = UDim.new(0, 12)
             UICornerKey.Parent = KeyFrame
@@ -90,7 +91,7 @@ end
 
 function Library:LoadWindow()
     --// Now we're setting up the window with the custom content (title, sections, etc.)
-    local Frame = game.CoreGui.MainWindow
+    local Frame = game.Players.LocalPlayer.PlayerGui.MainWindow  -- Zugriff auf PlayerGui
     local Title = Instance.new("TextLabel")
     Title.Size = UDim2.new(1, 0, 0, 40)
     Title.BackgroundTransparency = 1
@@ -114,7 +115,7 @@ function Library:CreateSection(name)
     sectionFrame.Size = UDim2.new(1, 0, 0, 50)
     sectionFrame.BackgroundColor3 = Color3.fromRGB(45, 45, 55)
     sectionFrame.BorderSizePixel = 0
-    sectionFrame.Parent = game.CoreGui.MainWindow
+    sectionFrame.Parent = game.Players.LocalPlayer.PlayerGui.MainWindow
 
     local sectionTitle = Instance.new("TextLabel")
     sectionTitle.Text = name
@@ -138,7 +139,7 @@ function Library:CreateButton(name, callback)
     button.Font = Enum.Font.Gotham
     button.TextScaled = true
     button.MouseButton1Click:Connect(callback)
-    button.Parent = game.CoreGui.MainWindow
+    button.Parent = game.Players.LocalPlayer.PlayerGui.MainWindow
 
     return button
 end
@@ -157,7 +158,7 @@ function Library:CreateToggle(name, defaultState, callback)
         toggle.Text = name .. ": " .. (defaultState and "ON" or "OFF")
         callback(defaultState)
     end)
-    toggle.Parent = game.CoreGui.MainWindow
+    toggle.Parent = game.Players.LocalPlayer.PlayerGui.MainWindow
 
     return toggle
 end
